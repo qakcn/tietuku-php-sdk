@@ -9,9 +9,9 @@ tietuku-php-sdk
 下载
 ----
 
-[点此下载](https://github.com/qakcn/PHPHttpRequest/raw/master/release/tietuku-php-sdk.php)新版的贴图库SDK
+[点此下载](https://github.com/qakcn/tietuku-php-sdk/raw/master/release/tietuku-php-sdk.php)新版的贴图库SDK
 
-[点此下载](https://github.com/qakcn/PHPHttpRequest/raw/master/release/tietuku_sdk.php)兼容旧版的贴图库SDK
+[点此下载](https://github.com/qakcn/tietuku-php-sdk/raw/master/release/tietuku_sdk.php)兼容旧版的贴图库SDK
 
 
 文件说明
