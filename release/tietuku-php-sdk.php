@@ -36,7 +36,7 @@ class Tietuku {
     /* 一些action的参数 */
     private $valid_actions = array(
         'uploadFile' => array('api'=>'upload', 'from'=>'file', 'valid' => array('aid')),
-        'uploadFromWeb' => array('api'=>'upload', 'from'=>'web', 'valid' => array('aid'),
+        'uploadFromWeb' => array('api'=>'upload', 'from'=>'web', 'valid' => array('aid')),
 
         'uploadPrivateFile' => array('api'=>'upload_private', 'from'=>'file', 'valid' => array('aid')),
         'uploadPrivateFromWeb' => array('api'=>'upload_private', 'from'=>'web', 'valid' => array('aid')),
@@ -115,7 +115,7 @@ class Tietuku {
     private function genToken(array $params) {
         $param = $this->URLSafeBase64Encode(json_encode($params));
         $sign = $this->URLSafeBase64Encode($this->signEncode($param, $this->secretkey));
-        return $this->$accesskey . ':' . $sign . ':' . $param;
+        return $this->accesskey . ':' . $sign . ':' . $param;
     }
 
     /**
@@ -128,10 +128,10 @@ class Tietuku {
      * @return string/TietukuResult/boolean $gettoken为true时返回Token，为false时返回TietukuResult对象，出错时返回false
      */
     private function doAction($action, array $params, $gettoken=false) {
-        if(array_key_exists($action, $this->valid_actions))
+        if(array_key_exists($action, $this->valid_actions)) {
             $api = $this->valid_actions[$action]['api'];
             $sendparam = array(
-                'deadline' => time()+$this->timeout;
+                'deadline' => time()+$this->timeout
             );
             $gettoken ? '' : $fd = new FormData();
             if($api == 'upload' || $api == 'upload_private') {
@@ -156,7 +156,7 @@ class Tietuku {
             if($gettoken) {
                 return $token;
             }else {
-                $url = getURL($api);
+                $url = $this->getURL($api);
                 $fd->append('Token',$token);
                 $fd->multipart = true;
                 $phr = new PHPHttpRequest();
@@ -1077,7 +1077,21 @@ class PHPHttpResponse {
             }
         }
 
-        $this->data = substr($res, $pos+4);
+        $transencode = $this->getHeader('Transfer-Encoding');
+        if(strtolower($transencode[0]['value']) == 'chunked') {
+            $data = substr($res, $pos+4);
+            list($shiftdata, $data) = explode("\r\n", $data, 2);
+            $this->data = '';
+            $chunk_size = (integer)hexdec($shiftdata);
+            while($chunk_size > 0) {
+                $this->data .= substr($data, 0, $chunk_size);
+                $data = substr($data, $chunk_size+2);
+                list($shiftdata, $data) = explode("\r\n", $data, 2);
+                $chunk_size = (integer)hexdec($shiftdata);
+            }
+        }else {
+            $this->data = substr($res, $pos+4);
+        }
     }
 
 
@@ -1342,7 +1356,7 @@ class FormData {
      * @access public
      */
     public function __set($name, $value) {
-        if($name=='multipart')) {
+        if($name=='multipart') {
             $this->$name = (bool)$value;
         }
     }

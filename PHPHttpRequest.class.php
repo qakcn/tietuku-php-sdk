@@ -322,7 +322,21 @@ class PHPHttpResponse {
             }
         }
 
-        $this->data = substr($res, $pos+4);
+        $transencode = $this->getHeader('Transfer-Encoding');
+        if(strtolower($transencode[0]['value']) == 'chunked') {
+            $data = substr($res, $pos+4);
+            list($shiftdata, $data) = explode("\r\n", $data, 2);
+            $this->data = '';
+            $chunk_size = (integer)hexdec($shiftdata);
+            while($chunk_size > 0) {
+                $this->data .= substr($data, 0, $chunk_size);
+                $data = substr($data, $chunk_size+2);
+                list($shiftdata, $data) = explode("\r\n", $data, 2);
+                $chunk_size = (integer)hexdec($shiftdata);
+            }
+        }else {
+            $this->data = substr($res, $pos+4);
+        }
     }
 
 
@@ -587,7 +601,7 @@ class FormData {
      * @access public
      */
     public function __set($name, $value) {
-        if($name=='multipart')) {
+        if($name=='multipart') {
             $this->$name = (bool)$value;
         }
     }
