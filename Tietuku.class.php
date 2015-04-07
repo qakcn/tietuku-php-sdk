@@ -158,7 +158,7 @@ class Tietuku {
             }else {
                 $url = $this->getURL($api);
                 $fd->append('Token',$token);
-                $fd->multipart = true;
+                //$fd->multipart = true;
                 $phr = new PHPHttpRequest();
                 $phr->open('post',$url);
                 $phr->setRequestHeader('User-Agent',$this->useragent);

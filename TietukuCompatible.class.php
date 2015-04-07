@@ -345,8 +345,8 @@ class TTKClient {
      */
     public function uploadFile($aid,$file=null,$filename=null){
         if(!empty($file)) {
-            $filobj = new File($file);
-            $result = $this->tietuku->uploadFile($aid, $fileobj, $filaname)->getJSON();
+            $fileobj = new File($file);
+            $result = $this->tietuku->uploadFile($aid, $fileobj, $filename)->getJSON();
         }else {
             $result = $this->tietuku->uploadFileToken($aid);
         }
