@@ -203,6 +203,7 @@ class PHPHttpRequest {
                         $boundary = '---------------------------'.substr(md5(rand(0,32000)),0,10);
                         $this->setRequestHeader('Content-Type', 'multipart/form-data; boundary='.$boundary);
                         $postdata .= '--' . $boundary;
+                        $data->reset();
                         while($m = $data->shift()) {
                             $postdata .= PHPHttpRequest::HTTP_EOL;
                             if(is_a($m['value'], 'File')) {

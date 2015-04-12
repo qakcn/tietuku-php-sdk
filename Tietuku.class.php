@@ -31,7 +31,7 @@ class Tietuku {
             'catalog' => 'Catalog',
             'private' => 'Psc'
         )
-);
+    );
 
     /* 一些action的参数 */
     private $valid_actions = array(
@@ -251,7 +251,7 @@ class Tietuku {
     }
 
     /**
-     * 私有云上传文件（对应API：hhttp://open.tietuku.com/doc#uppsc）
+     * 私有云上传文件（对应API：http://open.tietuku.com/doc#uppsc）
      * 
      * @param integer $aid 相册ID
      * @param File $file 要上传的文件对象，为空时返回Token
@@ -416,7 +416,7 @@ class Tietuku {
     /**
      * 获取图片信息（对应API：http://open.tietuku.com/doc#pic-getonepic）
      * 
-     * @param integer $id_findurl 图片ID或findurl
+     * @param integer/string $id_findurl 图片ID或findurl
      * @param boolean $findurl 为true时上一个参数是finurl，为false时是图片ID
      * @param boolean $gettoken 是否只返回Token
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
