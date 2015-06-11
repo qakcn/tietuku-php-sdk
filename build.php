@@ -8,7 +8,8 @@ version 0.1
 
 Deleting old file.<?php
 
-unlink('release/tietuku-php-sdk.php') && unlink('release/tietuku_sdk.php') || die('............Unable to delete.');
+file_exists('release/tietuku-php-sdk.php') && unlink('release/tietuku-php-sdk.php');
+file_exists('release/tietuku-php-sdk.php') && unlink('release/tietuku_sdk.php');
 
 ?>............Finished.
 Read file.<?php

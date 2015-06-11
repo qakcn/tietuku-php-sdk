@@ -310,7 +310,7 @@ class PHPHttpResponse {
 
         $headers = explode("\r\n", $headers);
         foreach($headers as $h) {
-            if(preg_match('/^HTTP\/.+ ([1-5][0-9]{2}) .*$/', $h, $match)) {
+            if(preg_match('/^HTTP\/.+ ([1-5][0-9]{2}).*$/', $h, $match)) {
                 $this->status = $match[1];
             }else {
                 list($hn, $hv) = explode(':', $h, 2);
