@@ -43,7 +43,7 @@ class PHPHttpRequest {
 
     /**
      * generate HTTP header string
-     * 
+     *
      * @return string generated header
      * @access private
      */
@@ -67,7 +67,7 @@ class PHPHttpRequest {
 
     /**
      * reset to default properties, make PHPHttpRequest instance again to use
-     * 
+     *
      * @access private
      */
     private function reset() {
@@ -91,7 +91,7 @@ class PHPHttpRequest {
 
     /**
      * send request
-     * 
+     *
      * @param string $data data ready for send
      * @return false if unable to establish connection
      * @access private
@@ -116,7 +116,7 @@ class PHPHttpRequest {
 
     /**
      * constructor, do some initiation
-     * 
+     *
      * @access public
      */
     public function __construct() {
@@ -126,7 +126,7 @@ class PHPHttpRequest {
 
     /**
      * set request header
-     * 
+     *
      * @param string $name header name
      * @param string $value header value
      * @access public
@@ -140,7 +140,7 @@ class PHPHttpRequest {
 
     /**
      * set request cookie
-     * 
+     *
      * @param string $name cookie name
      * @param string $value cookie value
      * @access public
@@ -159,7 +159,7 @@ class PHPHttpRequest {
 
     /**
      * open link stage
-     * 
+     *
      * @param string $method HTTP method, now support HEAD, GET, PUT, POST and DELETE
      * @param string $url URL to send request, must be absolute path
      * @return boolean false if method not support or URL not conform format
@@ -188,7 +188,7 @@ class PHPHttpRequest {
 
     /**
      * send request
-     * 
+     *
      * @param string/FormData/File $data data ready for send
      * @return boolean true if send successfully
      * @access public
@@ -268,7 +268,7 @@ class PHPHttpResponse {
 
     /**
      * parse "Set-Cookie" header
-     * 
+     *
      * @param string #cookiestr "Set-Cookie" value
      * @access private
      */
@@ -301,7 +301,7 @@ class PHPHttpResponse {
 
     /**
      * constructor, parse HTTP headers and body
-     * 
+     *
      * @param string $res response data
      * @access public
      */
@@ -343,7 +343,7 @@ class PHPHttpResponse {
 
     /**
      * get headers of response
-     * 
+     *
      * @param string $name header name, empty for all headers
      * @return array/boolean false for no match
      * @access public
@@ -368,7 +368,7 @@ class PHPHttpResponse {
 
     /**
      * get cookies of response
-     * 
+     *
      * @param string $name cookie name, empty for all cookies
      * @return array/boolean false for no match
      * @access public
@@ -393,7 +393,7 @@ class PHPHttpResponse {
 
     /**
      * getter, called when tring to get value of private properties
-     * 
+     *
      * @param string $name private property name, should be one of $valid
      * @return mixed value of the property
      * @access public
@@ -430,7 +430,7 @@ class File {
 
     /**
      * get MIME type of file, store in $mimetype
-     * 
+     *
      * @return boolean true if successfully get
      * @access private
      */
@@ -446,7 +446,7 @@ class File {
 
     /**
      * get size of file, store in $filesize
-     * 
+     *
      * @return boolean true if successfully get
      * @access private
      */
@@ -461,7 +461,7 @@ class File {
 
     /**
      * constructor
-     * 
+     *
      * @param string $filepath the path of a file
      * @return boolean false if $filepath is empty or is not exist or is not a file
      * @access public
@@ -480,7 +480,7 @@ class File {
 
     /**
      * getter, called when tring to get value of private properties
-     * 
+     *
      * @param string $name private property name, should be one of $valid
      * @return mixed value of the property
      * @access public
@@ -497,7 +497,7 @@ class File {
 
     /**
      * get file content as string
-     * 
+     *
      * @param integer $offset start position of a file in byte, defalut -1
      * @param integer $maxlen max length of content in byte, default NULL
      * @return string content of the file
@@ -517,7 +517,7 @@ class File {
 
     /**
      * get file content as data URI string
-     * 
+     *
      * @return string base64 encoded data URI
      * @access public
      */
@@ -552,7 +552,7 @@ class FormData {
 
     /**
      * append form member
-     * 
+     *
      * @param string $name "name" attribute
      * @param string/File $value "value" attribute or File instance
      * @param string $filename override File instance filename
@@ -565,7 +565,7 @@ class FormData {
         }
         $m['name'] = $name;
         if(is_a($value, 'File')) {
-            if(!empty((string)$filename)) {
+            if(!empty($filename)) {
                 $m['filename'] = (string)$filename;
             }
             $m['value'] = $value;
@@ -580,7 +580,7 @@ class FormData {
 
     /**
      * getter, called when tring to get value of private properties
-     * 
+     *
      * @param string $name private property name, should be one of $valid
      * @return mixed value of the property
      * @access public
@@ -596,7 +596,7 @@ class FormData {
 
     /**
      * setter, called when tring to set value of private properties
-     * 
+     *
      * @param string $name private property name, only 'multipart' allowed
      * @param mixed $value value of the property, only boolean allowed for 'multipart'
      * @access public
@@ -610,7 +610,7 @@ class FormData {
 
     /**
      * get first member of FormData and move it to buffer
-     * 
+     *
      * @return array first member of FormData
      * @access public
      */
@@ -625,7 +625,7 @@ class FormData {
 
     /**
      * get last member of FormData and move it to buffer
-     * 
+     *
      * @return array last member of FormData
      * @access public
      */
@@ -640,7 +640,7 @@ class FormData {
 
     /**
      * reset the members as never have used shift() or pop()
-     * 
+     *
      * @access public
      */
     public function reset() {
