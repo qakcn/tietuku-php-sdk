@@ -334,7 +334,7 @@ class TTKClient {
     }
 
     /**
-     * 上传单个文件到贴图库 
+     * 上传单个文件到贴图库
      *
      * 对应API：{@link http://open.tietuku.com/doc#upload}
      *
@@ -354,7 +354,7 @@ class TTKClient {
     }
 
     /**
-     * 上传多个文件到贴图库 
+     * 上传多个文件到贴图库
      *
      * 对应API：{@link http://open.tietuku.com/doc#upload}
      *
@@ -480,6 +480,11 @@ class TTKClient {
         return $result;
     }
 
+    //兼容糟糕的官方SDK
+    public function getPscPicList($aid,$page_no=1) {
+        return $this->getAlbumPicByAidPsc($aid,$page_no);
+    }
+
     public function getOnePicByIdPsc($id,$createToken=false){
         if(!$createToken) {
             $result = $this->tietuku->getPrivatePicInfo($id)->getJSON();
@@ -487,6 +492,11 @@ class TTKClient {
             $result = $this->tietuku->getPrivatePicInfoToken($id);
         }
         return $result;
+    }
+
+    //兼容糟糕的官方SDK
+    public function getpicpdetail($pid) {
+        return $this=>getOnePicByIdPsc($pid);
     }
 
     public function getOnePicByFind_urlPsc($find_url,$createToken=false){
@@ -502,9 +512,14 @@ class TTKClient {
         if(!$createToken) {
             $result = $this->tietuku->editPrivatePic($pid,$pname)->getJSON();
         }else {
-            $result = $this->tietuku->editPrivatePic($pid,$pname);
+            $result = $this->tietuku->editPrivatePicToken($pid,$pname);
         }
         return $result;
+    }
+
+    //兼容糟糕的官方SDK，are you kidding me?
+    public function modifyPicName($pid,$pname) {
+        return $this->updatePicNamePsc($pid,$pname);
     }
 }
 

@@ -3,7 +3,9 @@ tietuku-php-sdk
 
 贴图库的PHP SDK。
 
-对全部API进行重写，另外也添加了兼容层以保持对旧版的兼容。
+对全部API进行重写，另外也添加了兼容层以保持对官方版的兼容。
+
+由于之前的兼容APIv2（现称作“数据接口”）的版本没有经过测试，有严重BUG，而且APIv2也主要是给JS之类的用于查询的，因此回滚到了之前的版本，取消了对APIv2的支持。
 
 
 下载
@@ -11,7 +13,7 @@ tietuku-php-sdk
 
 <a href="https://github.com/qakcn/tietuku-php-sdk/raw/master/release/tietuku-php-sdk.php" download>点此下载</a> 新版的贴图库SDK
 
-<a href="https://github.com/qakcn/tietuku-php-sdk/raw/master/release/tietuku_sdk.php" download>点此下载</a> 兼容旧版的贴图库SDK
+<a href="https://github.com/qakcn/tietuku-php-sdk/raw/master/release/tietuku_sdk.php" download>点此下载</a> 兼容官方版的贴图库SDK
 
 
 文件说明
@@ -19,28 +21,28 @@ tietuku-php-sdk
 
 * `Tietuku.class.php`  贴图库SDK主类文件
 * `TietukuResult.class.php`  贴图库SDK结果类文件
-* `TietukuCompatible.class.php`  贴图库SDK旧版兼容类文件
+* `TietukuCompatible.class.php`  贴图库SDK官方版兼容类文件
 * `PHPHttpRequest.class.php`  [PHPHttpRequest](https://github.com/qakcn/PHPHttpRequest)类文件
 * `load.php`  加载上述全部类文件，用于测试
 * `build.php` 生成下面两个文件，只能在命令行中运行
 * `release/tietuku-php-sdk.php`  贴图库SDK的单文件
-* `release/tietuku_sdk.php`  兼容旧版SDK的单文件
+* `release/tietuku_sdk.php`  兼容官方版SDK的单文件
 
 
-旧版SDK兼容说明
+官方版SDK兼容说明
 ---------------
 
-仅兼容旧版的`TTKClient`类，`TieTuKuToken`类并无实现。`TTKClient`类没有旧版的`post`方法。
+仅兼容官方版的`TTKClient`类，`TieTuKuToken`类并无实现。`TTKClient`类没有旧版的`post`方法。
 
-除此之外使用旧版SDK的程序基本不用进行修改，只要替换相应的文件即可。
+除此之外使用官方版SDK的程序基本不用进行修改，只要替换相应的文件即可。
 
 另外根据API的变动引入了如下新内容：
 
 1. `getAlbumByUid`方法最后增加一个参数`$page_no`，表示页码;
 
-2. 新增删除图片的方法`delPic`、修改图片名称的方法`updatePicName`;
+2. 新增方法`delPic`（删除图片）和`updatePicName`（修改图片名称）;
 
-3. 新增对应私有云API的方法`uploadFilePsc`、`curlUpFilePsc`、`uploadFromWebPsc`、`getAlbumPicByAidPsc`、`getOnePicByIdPsc`、`getOnePicByFind_urlPsc`、`modifyPicNamePsc`，均与没有最后的`Psc`的原方法用法一致。
+3. 新增对应私有云API的方法`uploadFilePsc`、`curlUpFilePsc`、`uploadFromWebPsc`、`getAlbumPicByAidPsc`（以及兼容的`getPscPicList`）、`getOnePicByIdPsc`（以及兼容的`getpicpdetail`，开什么玩笑，谁命名的鬼方法！）、`getOnePicByFind_urlPsc`、`updatePicNamePsc`（以及兼容的`modifyPicName`，嗯，一定是吃了大便了），均与没有最后的`Psc`的原方法用法一致。
 
 具体使用方法请查看文件中的注释。
 
@@ -48,10 +50,10 @@ tietuku-php-sdk
 新版SDK使用说明
 ---------------
 
-新版SDK使用了`PHPHttpRequest`系列类来进行HTTP请求，避免了旧版SDK对cURL扩展的依赖。  
+新版SDK使用了`PHPHttpRequest`系列类来进行HTTP请求，避免了官方版SDK对cURL扩展的依赖。  
 现在使用的全部函数均是PHP自带函数，只要没有被禁用相关函数，就能够运行，比旧版更加轻量级。
 
-新版SDK对旧版的方法名称进行了调整，但大致使用方法没有改变，可以很快上手。
+新版SDK对官方版的方法名称进行了调整，但大致使用方法没有改变，可以很快上手。
 
 新版SDK使用`TietukuResult`类来返回结果，能更好地支持错误信息。  
 同时结果能直接获取为关联数组，也可获取原始的JSON数据，更加方便使用。
@@ -61,16 +63,16 @@ tietuku-php-sdk
 
 #### 创建对象
 
-以贴图库提供的Access Key作为第一个参数，Secret Key作为第二个参数即可。Key请到贴图库开放平台的管理中心获取。本程序只能检查Key是否符合格式，而无法检查Key是够正确，如果在后面的操作中无法成功，请自行检查Key是否正确。
+以贴图库提供的Access Key作为第一个参数，Secret Key作为第二个参数即可。Key请到贴图库开放平台的管理中心获取。本程序只能检查Key是否符合格式，而无法检查Key是否正确，如果在后面的操作中无法成功，请自行检查Key是否正确。
 
     $ttk = new Tietuku('00112233445566778899aabbccddeeff00112233','ffeeddccbbaa99887766554433221100ffeedd');    //两个Key都是40位的十六进制数的字符串表示
 
 #### 设置属性
 
-本程序有两个属性可以设置，`timeout`Token延时（生命周期）和`useragent`用户代理。`timeout`单位为秒，默认为60，请不要设置过小以免后续操作失败。有关**用户代理**请查阅维基百科。
+本类有两个属性可以设置，`timeout`Token延时（生命周期）和`useragent`用户代理。`timeout`单位为秒，默认为60，请不要设置过小以免后续操作失败。有关**用户代理**请查阅维基百科。
 
     $ttk->timeout = 120;    //将Token生命周期设置为120秒
-    $ttk->useragent = 'Mozilla/5.0 (IE 11.0 ;Windows NT 6.3; Trident/7.0; .NET4.0E; .NET4.0C; rv11.0) Like Gecko';    //将用户代理伪装为IE 11
+    $ttk->useragent = 'Mozilla/5.0 (IE 11.0; Windows NT 6.3; Trident/7.0; .NET4.0E; .NET4.0C; rv11.0) Like Gecko';    //将用户代理伪装为IE 11
 
 #### 方法说明
 
@@ -95,6 +97,7 @@ tietuku-php-sdk
   * `$filename` 字符串，要重设的文件名（用于想上传的文件名不是File对象中的文件名，比如临时文件）
 
   **注**：File类已包含在本SDK附带的`PHPHttpRequest`类里，创建对象时传入文件路径即可，如：
+
       $file = new File('/path/to/file');
 
 * `uploadFromWeb($aid, $url)`
@@ -162,7 +165,7 @@ tietuku-php-sdk
 
 ##### 图片接口
 
-* `getPicIndo($id_findurl, $findurl)`
+* `getPicInfo($id_findurl, $findurl)`
 
   通过ID或findurl来获取图片信息，文档：[http://open.tietuku.com/doc#pic-getonepic]()
 
@@ -175,11 +178,12 @@ tietuku-php-sdk
 
   * `$pid` 整数，图片ID
 
-* `editPic($pid)`
+* `editPic($pid, $pname)`
 
   修改图片名称，文档：[http://open.tietuku.com/doc#pic-updatepicname]()
 
   * `$pid` 整数，图片ID
+  * `$pname` 字符串，修改后的图片名称
 
 ##### 喜欢接口
 
