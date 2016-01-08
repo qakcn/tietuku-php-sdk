@@ -9,7 +9,7 @@
  * @subpackage  Tietuku
  * @author      qakcn <qakcnyn@gmail.com>
  * @copyright   2015 qakcn
- * @version     0.2
+ * @version     0.1
  * @license     http://mozilla.org/MPL/2.0/
  * @link        https://github.com/qakcn/tietuku-php-sdk
  */
@@ -20,77 +20,46 @@ class Tietuku {
 
     /* API URL */
     private $url = array(
-        'v1' => array(
-            'upload' => 'http://up.tietuku.com',
-            'upload_private' => 'http://uppsc.tietuku.com',
-
-            'prefix' => 'http://api.tietuku.com/v1/',
-            'suffix' => array(
-                'album' => 'Album',
-                'list' => 'List',
-                'pic' => 'Pic',
-                'collect' => 'Collect',
-                'catalog' => 'Catalog',
-                'private' => 'http://api.tietuku.com/v1/Psc',
-            )
-        ),
-        'v2' => array(
-            'prefix' => 'http://api.tietuku.com/v2/api/',
+        'upload' => 'http://up.tietuku.com',
+        'upload_private' => 'http://uppsc.tietuku.com',
+        'prefix' => 'http://api.tietuku.com/v1/',
+        'suffix' => array(
+            'album' => 'Album',
+            'list' => 'List',
+            'pic' => 'Pic',
+            'collect' => 'Collect',
+            'catalog' => 'Catalog',
+            'private' => 'Psc'
         )
     );
 
-    private $api_version;
-    private $openkey;
-
     /* 一些action的参数 */
     private $valid_actions = array(
-        'common' => array(
-            'uploadFile' => array('api'=>'upload', 'from'=>'file', 'valid' => array('aid')),
-            'uploadFromWeb' => array('api'=>'upload', 'from'=>'web', 'valid' => array('aid')),
+        'uploadFile' => array('api'=>'upload', 'from'=>'file', 'valid' => array('aid')),
+        'uploadFromWeb' => array('api'=>'upload', 'from'=>'web', 'valid' => array('aid')),
 
-            'uploadPrivateFile' => array('api'=>'upload_private', 'from'=>'file', 'valid' => array('aid')),
-            'uploadPrivateFromWeb' => array('api'=>'upload_private', 'from'=>'web', 'valid' => array('aid')),
+        'uploadPrivateFile' => array('api'=>'upload_private', 'from'=>'file', 'valid' => array('aid')),
+        'uploadPrivateFromWeb' => array('api'=>'upload_private', 'from'=>'web', 'valid' => array('aid')),
 
-            'getPrivatePicsByAlbum' => array('api'=>'private', 'action'=>'piclist', 'valid' => array('aid', 'page_no')),
-            'getPrivatePicInfo' => array('api'=>'private', 'action'=>'getpicpdetail', 'valid' => array('pid', 'findurl')),
-            'editPrivatePic' => array('api'=>'private', 'action'=>'modifypicname', 'valid' => array('pid', 'pname')),
-        ),
+        'getAlbums' => array('api'=>'album', 'action'=>'get', 'valid' => array('uid', 'page_no')),
+        'createAlbum' => array('api'=>'album', 'action'=>'create', 'valid' => array('albumname')),
+        'editAlbum' => array('api'=>'album', 'action'=>'editalbum', 'valid' => array('aid', 'albumname')),
+        'deleteAlbum' => array('api'=>'album', 'action'=>'delalbum', 'valid' => array('aid')),
+        'getRandRecPics' => array('api'=>'list', 'action'=>'getrandrec', 'valid' => array('cid')),
+        'getAllPics' => array('api'=>'list', 'action'=>'getnewpic', 'valid' => array('page_no', 'cid')),
+        'getPicsByAlbum' => array('api'=>'list', 'action'=>'album', 'valid' => array('aid', 'page_no')),
+        'getPicsByIds' => array('api'=>'list', 'action'=>'getpicbyids', 'valid' => array('ids')),
+        'getPicInfo' => array('api'=>'pic', 'action'=>'getonepic', 'valid' => array('id', 'findurl')),
+        'deletePic' => array('api'=>'pic', 'action'=>'delpic', 'valid' => array('pid')),
+        'editPic' => array('api'=>'pic', 'action'=>'updatepicname', 'valid' => array('pid', 'pname')),
+        'getLovePic' => array('api'=>'collect', 'action'=>'getlovepic', 'valid' => array('page_no')),
+        'lovePic' => array('api'=>'collect', 'action'=>'addcollect', 'valid' => array('id')),
+        'unlovePic' => array('api'=>'collect', 'action'=>'delcollect', 'valid' => array('id')),
+        'getCatalog' => array('api'=>'catalog', 'action'=>'getall', 'valid' => array()),
 
-        'v1' => array(
-            'getAlbums' => array('api'=>'album', 'action'=>'get', 'valid' => array('uid', 'page_no')),
-            'createAlbum' => array('api'=>'album', 'action'=>'create', 'valid' => array('albumname')),
-            'editAlbum' => array('api'=>'album', 'action'=>'editalbum', 'valid' => array('aid', 'albumname')),
-            'deleteAlbum' => array('api'=>'album', 'action'=>'delalbum', 'valid' => array('aid')),
-            'getRandRecPics' => array('api'=>'list', 'action'=>'getrandrec', 'valid' => array('cid')),
-            'getAllPics' => array('api'=>'list', 'action'=>'getnewpic', 'valid' => array('page_no', 'cid')),
-            'getPicsByAlbum' => array('api'=>'list', 'action'=>'album', 'valid' => array('aid', 'page_no')),
-            'getPicsByIds' => array('api'=>'list', 'action'=>'getpicbyids', 'valid' => array('ids')),
-            'getPicInfo' => array('api'=>'pic', 'action'=>'getonepic', 'valid' => array('id', 'findurl')),
-            'deletePic' => array('api'=>'pic', 'action'=>'delpic', 'valid' => array('pid')),
-            'editPic' => array('api'=>'pic', 'action'=>'updatepicname', 'valid' => array('pid', 'pname')),
-            'getLovePic' => array('api'=>'collect', 'action'=>'getlovepic', 'valid' => array('page_no')),
-            'lovePic' => array('api'=>'collect', 'action'=>'addcollect', 'valid' => array('id')),
-            'unlovePic' => array('api'=>'collect', 'action'=>'delcollect', 'valid' => array('id')),
-            'getCatalog' => array('api'=>'catalog', 'action'=>'getall', 'valid' => array()),
-        ),
-
-        'v2' => array(
-            'getAlbums' => array('api'=>'getalbum', 'valid' => array('p')),
-            //'createAlbum' => array('api'=>'album', 'action'=>'create', 'valid' => array('albumname')),
-            //'editAlbum' => array('api'=>'album', 'action'=>'editalbum', 'valid' => array('aid', 'albumname')),
-            //'deleteAlbum' => array('api'=>'album', 'action'=>'delalbum', 'valid' => array('aid')),
-            'getRandRecPics' => array('api'=>'getrandrec', 'valid' => array()),
-            'getAllPics' => array('api'=>'getnewpic', 'valid' => array('p', 'cid')),
-            'getPicsByAlbum' => array('api'=>'getpiclist', 'valid' => array('aid', 'p')),
-            //'getPicsByIds' => array('api'=>'list', 'action'=>'getpicbyids', 'valid' => array('ids')),
-            'getPicInfo' => array('api'=>'getonepic', 'valid' => array('pid', 'findurl')),
-            //'deletePic' => array('api'=>'pic', 'action'=>'delpic', 'valid' => array('pid')),
-            //'editPic' => array('api'=>'pic', 'action'=>'updatepicname', 'valid' => array('pid', 'pname')),
-            'getLovePic' => array('api'=>'getlovepic', 'valid' => array('p')),
-            //'lovePic' => array('api'=>'collect', 'action'=>'addcollect', 'valid' => array('id')),
-            //'unlovePic' => array('api'=>'collect', 'action'=>'delcollect', 'valid' => array('id')),
-            'getCatalog' => array('api'=>'getcatalog', 'valid' => array()),
-        ),
+        'getPrivatePicsByAlbum' => array('api'=>'private', 'action'=>'piclist', 'valid' => array('aid', 'page_no')),
+        'getPrivatePicInfo' => array('api'=>'private', 'action'=>'getpicpdetail', 'valid' => array('pid', 'findurl')),
+        'editPrivatePic' => array('api'=>'private', 'action'=>'modifypicname', 'valid' => array('pid', 'pname')),
     );
 
     private $accesskey;
@@ -99,10 +68,10 @@ class Tietuku {
     private $useragent = 'tietuku-php-sdk/0.1 PHPHttpRequest/0.1';
 
     private function getURL($api) {
-        if($this->api_version == 'v1') {
-            return $this->url['v1']['prefix'] . $this->url['v1']['suffix'][$api];
+        if($api == 'upload' || $api == 'upload_private') {
+            return $this->url[$api];
         }else {
-            return $this->url['v2']['prefix'] . $api;
+            return $this->url['prefix'] . $this->url['suffix'][$api];
         }
     }
 
@@ -159,15 +128,14 @@ class Tietuku {
      * @return string/TietukuResult/boolean $gettoken为true时返回Token，为false时返回TietukuResult对象，出错时返回false
      */
     private function doAction($action, array $params, $gettoken=false) {
-        $api = $this->valid_actions[$this->api_version][$action]['api'];
-        if($this->api_version == 'v1') {
+        if(array_key_exists($action, $this->valid_actions)) {
+            $api = $this->valid_actions[$action]['api'];
             $sendparam = array(
                 'deadline' => time()+$this->timeout
             );
             $gettoken ? '' : $fd = new FormData();
-
             if($api == 'upload' || $api == 'upload_private') {
-                $sendparam['from'] = $this->valid_actions[$api_version][$action]['from'];
+                $sendparam['from'] = $this->valid_actions[$action]['from'];
                 if(!$gettoken) {
                     if($sendparam['from']=='file') {
                         $filename = isset($params['filename']) ? $params['filename'] : null;
@@ -176,60 +144,45 @@ class Tietuku {
                         $fd->append('fileurl', $params['fileurl']);
                     }
                 }
+            }else {
+                $sendparam['action'] = $this->valid_actions[$action]['action'];
             }
-
-            $sendparam['action'] = $this->valid_actions[$api_version][$action]['action'];
-
+            foreach($params as $key => $value) {
+                if(in_array($key, $this->valid_actions[$action]['valid'])) {
+                    $sendparam[$key] = $value;
+                }
+            }
             $token = $this->genToken($sendparam);
             if($gettoken) {
                 return $token;
-            }
-            $fd->append('Token',$token);
-        }else {
-            if($gettoken) return false;
-            $api = $this->valid_actions['v2'][$action]['api'];
-            $fd = new FormData();
-            $fd->append('key', $this->openkey);
-        }
-
-        foreach($params as $key => $value) {
-            if($this->api_version == 'v1') {
-                if(in_array($key, $this->valid_actions[$api_version][$action]['valid'])) {
-                    $sendparam[$key] = $value;
-                }
             }else {
-                $fd->append($key, $value);
+                $url = $this->getURL($api);
+                $fd->append('Token',$token);
+                //$fd->multipart = true;
+                $phr = new PHPHttpRequest();
+                $phr->open('post',$url);
+                $phr->setRequestHeader('User-Agent',$this->useragent);
+                if($phr->send($fd)) {
+                    return new TietukuResult($phr->response);
+                }
             }
         }
-
-        $url = $this->getURL($api);
-        //$fd->multipart = true;
-        $phr = new PHPHttpRequest();
-        $phr->open('post',$url);
-        $phr->setRequestHeader('User-Agent',$this->useragent);
-
-        if($phr->send($fd)) {
-            return new TietukuResult($phr->response);
-        }
-
         return false;
     }
 
     /**
      * 构造函数
      * 
-     * @param string $accesskey_openkey 贴图库的AccessKey或者适用API v2的OpenKey
-     * @param string $secretkey 贴图库的SecretKey，当此项为null时，上一参数为API v2的OpenKey
+     * @param string $accesskey 贴图库的AccessKey
+     * @param string $secretkey 贴图库的SecretKey
      * @return boolean 如果Key的格式不正确则返回false
     */
-    public function __construct($accesskey_openkey, $secretkey = null) {
-        if(is_null($secretkey)) {
-            $this->openkey = $accesskey_openkey;
-            $this->api_version = 'v2';
-        }else if($this->checkKey($accesskey_openkey) && $this->checkKey($secretkey)) {
-            $this->accesskey = strtolower($accesskey_openkey);
+    public function __construct($accesskey, $secretkey) {
+        if($this->checkKey($accesskey) && $this->checkKey($secretkey)) {
+            $this->accesskey = strtolower($accesskey);
             $this->secretkey = strtolower($secretkey);
-            $this->api_version = 'v1';
+        }else {
+            return false;
         }
     }
 
@@ -240,7 +193,7 @@ class Tietuku {
      * @return mixed 属性值
      */
     public function __get($name) {
-        $valid = array('accesskey', 'secretkey', 'timeout', 'useragent', 'openkey', 'api_version');
+        $valid = array('accesskey', 'secretkey', 'timeout', 'useragent');
         if(in_array($name, $valid)) {
             return $this->$name;
         }
@@ -268,9 +221,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean $file为空则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function uploadFile($aid, File $file = null, $filename = null) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'aid' => $aid,
         );
@@ -291,9 +241,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean $url为空则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function uploadFromWeb($aid, $url = null) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'aid' => $aid,
         );
@@ -312,9 +259,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean $file为空则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function uploadPrivateFile($aid, File $file = null, $filename = null) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'aid' => $aid,
         );
@@ -335,9 +279,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean $url为空则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function uploadPrivateFromWeb($aid, $url = null) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'aid' => $aid,
         );
@@ -356,17 +297,11 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function getAlbums($page_no = 1, $uid = null, $gettoken = false) {
-        if($this->api_version == 'v1') {
-            $params=array(
-                'page_no' => $page_no,
-            );
-            if(!empty($uid)) {
-                $params['uid'] = $uid;
-            }
-        }else {
-            $params=array(
-                'p' => $page_no,
-            );
+        $params=array(
+            'page_no' => $page_no,
+        );
+        if(!empty($uid)) {
+            $params['uid'] = $uid;
         }
         return $this->doAction('getAlbums', $params, $gettoken);
     }
@@ -379,9 +314,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function createAlbum($albumname, $gettoken = false) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'albumname' => $albumname,
         );
@@ -397,9 +329,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function editAlbum($aid, $albumname, $gettoken = false) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'aid' => $aid,
             'albumname' => $albumname,
@@ -415,9 +344,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function deleteAlbum($aid, $gettoken = false) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'aid' => $aid,
         );
@@ -433,10 +359,8 @@ class Tietuku {
      */
     public function getRandRecPics($cid = null, $gettoken = false) {
         $params=array();
-        if($this->api_version == 'v1') {
-            if(!empty($cid)) {
-                $params['cid'] = $cid;
-            }
+        if(!empty($cid)) {
+            $params['cid'] = $cid;
         }
         return $this->doAction('getRandRecPics', $params, $gettoken);
     }
@@ -450,15 +374,9 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function getAllPics($page_no = 1, $cid = null, $gettoken = false) {
-        if($this->api_version == 'v1') {
-            $params=array(
-                'page_no' => $page_no,
-            );
-        }else {
-            $params=array(
-                'p' => $page_no,
-            );
-        }
+        $params=array(
+            'page_no' => $page_no,
+        );
         if(!empty($cid)) {
             $params['cid'] = $cid;
         }
@@ -473,21 +391,11 @@ class Tietuku {
      * @param boolean $gettoken 是否只返回Token
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
-    public function getPicsByAlbum($aid = null, $page_no = 1, $gettoken = false) {
-        if($this->api_version == 'v1') {
-            if(is_null($aid)) {
-                return false;
-            }
-            $params=array(
-                'aid' => $aid,
-                'page_no' => $page_no,
-            );
-        }else {
-            $params=array(
-                'aid' => $aid,
-                'p' => $page_no,
-            );
-        }
+    public function getPicsByAlbum($aid, $page_no = 1, $gettoken = false) {
+        $params=array(
+            'aid' => $aid,
+            'page_no' => $page_no,
+        );
         return $this->doAction('getPicsByAlbum', $params, $gettoken);
     }
 
@@ -499,9 +407,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function getPicsByIds($ids, $gettoken = false) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'ids' => $ids,
         );
@@ -522,15 +427,9 @@ class Tietuku {
                 'findurl' => $id_findurl,
             );
         }else {
-            if($this->api_version == 'v1') {
-                $params=array(
-                    'id' => $id_findurl,
-                );
-            }else {
-                $params=array(
-                    'pid' => $id_findurl,
-                );
-            }
+            $params=array(
+                'id' => $id_findurl,
+            );
         }
         return $this->doAction('getPicInfo', $params, $gettoken);
     }
@@ -543,9 +442,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function deletePic($pid, $gettoken = false) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'pid' => $pid,
         );
@@ -561,9 +457,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function editPic($pid, $pname, $gettoken = false) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'pid' => $pid,
             'pname' => $pname,
@@ -579,15 +472,9 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function getLovePic($page_no = 1, $gettoken = false) {
-        if($this->api_version == 'v1') {
-            $params=array(
-                'page_no' => $page_no,
-            );
-        }else {
-            $params=array(
-                'p' => $page_no,
-            );
-        }
+        $params=array(
+            'page_no' => $page_no,
+        );
         return $this->doAction('getLovePic', $params, $gettoken);
     }
 
@@ -599,9 +486,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function lovePic($id, $gettoken = false) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'id' => $id,
         );
@@ -616,9 +500,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function unlovePic($id, $gettoken = false) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'id' => $id,
         );
@@ -645,9 +526,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function getPrivatePicsByAlbum($aid, $page_no = 1, $gettoken = false) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'aid' => $aid,
             'page_no' => $page_no,
@@ -664,9 +542,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function getPrivatePicInfo($pid_findurl, $findurl = false, $gettoken = false) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         if($findurl) {
             $params=array(
                 'findurl' => $pid_findurl,
@@ -688,9 +563,6 @@ class Tietuku {
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
     public function editPrivatePic($pid, $pname, $gettoken = false) {
-        if($this->api_version == 'v2') {
-            return false;
-        }
         $params=array(
             'pid' => $pid,
             'pname' => $pname,
@@ -733,7 +605,7 @@ class Tietuku {
     public function getAllPicsToken($page_no = 1, $cid = 1) {
         return $this->getAllPics($page_no, $cid, true);
     }
-    public function getPicsByAlbumToken($aid = null, $page_no = 1) {
+    public function getPicsByAlbumToken($aid, $page_no = 1) {
         return $this->getPicsByAlbum($aid, $page_no, true);
     }
     public function getPicsByIdsToken($ids) {

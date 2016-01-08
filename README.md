@@ -65,11 +65,6 @@ tietuku-php-sdk
 
     $ttk = new Tietuku('00112233445566778899aabbccddeeff00112233','ffeeddccbbaa99887766554433221100ffeedd');    //两个Key都是40位的十六进制数的字符串表示
 
-0.2版开始支持API v2，仅需传入一个参数，即OpenKey即可。
-
-    $ttk = new Tietuku('abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWX');    //传入一个参数即OpenKey即可
-
-
 #### 设置属性
 
 本程序有两个属性可以设置，`timeout`Token延时（生命周期）和`useragent`用户代理。`timeout`单位为秒，默认为60，请不要设置过小以免后续操作失败。有关**用户代理**请查阅维基百科。
@@ -93,7 +88,7 @@ tietuku-php-sdk
 
 * `uploadFile($aid, $file, $filename)`
 
-  从文件系统上传文件，仅API v1可用。
+  从文件系统上传文件
 
   * `$aid` 整数，要上传文件到的相册ID
   * `$file` File对象，文件
@@ -104,7 +99,7 @@ tietuku-php-sdk
 
 * `uploadFromWeb($aid, $url)`
 
-  从网络上传文件，仅API v1可用。
+  从网络上传文件
 
   * `$aid` 整数，要上传文件到的相册ID
   * `$url` 字符串，合法的网络图片URL
@@ -116,24 +111,24 @@ tietuku-php-sdk
   获取所有相册的列表，文档：[http://open.tietuku.com/doc#album-get]()
 
   * `$page_no` 整数，页码，缺省值`1`
-  * `$uid` 整数，用户ID，API v2忽略此参数，缺省值`null`（表示获取当前用户的相册）
+  * `$uid` 整数，用户ID，缺省值`null`（表示获取当前用户的相册）
 
 * `createAlbums($albumname)`
 
-  创建相册，仅API v1可用，文档：[http://open.tietuku.com/doc#album-create]()
+  创建相册，文档：[http://open.tietuku.com/doc#album-create]()
 
   * `$albumname` 字符串，相册名称
 
 * `editAlbum($aid, $albumname)`
 
-  编辑相册，仅API v1可用，文档：[http://open.tietuku.com/doc#album-editalbum]()
+  编辑相册，文档：[http://open.tietuku.com/doc#album-editalbum]()
 
   * `$aid` 整数，相册ID
   * `$albumname` 字符串，要修改为的相册名称
 
 * `deleteAlbum($aid)`
 
-  删除相册，仅API v1可用，文档：[http://open.tietuku.com/doc#album-delalbum]()
+  删除相册，文档：[http://open.tietuku.com/doc#album-delalbum]()
 
   * `$aid` 整数，相册ID
 
@@ -143,7 +138,7 @@ tietuku-php-sdk
 
   获取30张随机推荐图片，文档：[http://open.tietuku.com/doc#list-getrandrec]()
 
-  * `$cid` 整数，分类ID（使用`getCatalog`来查询），API v2忽略此参数，缺省值`null`（表示获取所有分类）
+  * `$cid` 整数，分类ID（使用`getCatalog`来查询），缺省值`null`（表示获取所有分类）
 
 * `getAllPics($page_no, $cid)`
 
@@ -156,18 +151,18 @@ tietuku-php-sdk
 
   获取相册内的图片，文档：[http://open.tietuku.com/doc#list-album]()
 
-  * `$aid` 整数，相册ID，仅用于API v2时可以缺省，缺省值`null`（表示获取所有相册图片）
+  * `$aid` 整数，相册ID
   * `$page_no` 整数，页码，缺省值`1`
 
 * `getPicsByIds($ids)`
 
-  通过一组ID来获取图片，仅API v1可用，文档：[http://open.tietuku.com/doc#list-getpicbyids]()
+  通过一组ID来获取图片，文档：[http://open.tietuku.com/doc#list-getpicbyids]()
 
   * `$ids` 字符串，以半角逗号（`,`）分隔的整数图片ID
 
 ##### 图片接口
 
-* `getPicInfo($id_findurl, $findurl)`
+* `getPicIndo($id_findurl, $findurl)`
 
   通过ID或findurl来获取图片信息，文档：[http://open.tietuku.com/doc#pic-getonepic]()
 
@@ -176,13 +171,13 @@ tietuku-php-sdk
 
 * `deletePic($pid)`
 
-  删除图片（注意此删除并非从贴图库删除，仅为从用户相册中移除），仅API v1可用，文档：[http://open.tietuku.com/doc#pic-delpic]()
+  删除图片（注意此删除并非从贴图库删除，仅为从用户相册中移除），文档：[http://open.tietuku.com/doc#pic-delpic]()
 
   * `$pid` 整数，图片ID
 
 * `editPic($pid)`
 
-  修改图片名称，仅API v1可用，文档：[http://open.tietuku.com/doc#pic-updatepicname]()
+  修改图片名称，文档：[http://open.tietuku.com/doc#pic-updatepicname]()
 
   * `$pid` 整数，图片ID
 
@@ -196,13 +191,13 @@ tietuku-php-sdk
 
 * `lovePic($id)`
 
-  喜欢一张图片，仅API v1可用，文档：[http://open.tietuku.com/doc#collect-addcollect]()
+  喜欢一张图片，文档：[http://open.tietuku.com/doc#collect-addcollect]()
 
   * `$id` 整数，图片ID
 
 * `unlovePic($id)`
 
-  取消喜欢一张图片，仅API v1可用，文档：[http://open.tietuku.com/doc#collect-delcollect]()
+  取消喜欢一张图片，文档：[http://open.tietuku.com/doc#collect-delcollect]()
 
   * `$id` 整数，图片ID
 
@@ -214,7 +209,7 @@ tietuku-php-sdk
 
 ##### 私有云上传接口
 
-开通私有云的可以使用私有云上传接口，用法与上述不带**Private**的上传接口一致，仅API v1可用。
+开通私有云的可以使用私有云上传接口，用法与上述不带**Private**的上传接口一致。
 
 文档：[http://open.tietuku.com/doc#uppsc]()
 
@@ -223,7 +218,7 @@ tietuku-php-sdk
 
 ##### 私有云接口
 
-开通私有云的可以使用私有云接口，用法与上述不带**Private**的对应方法一致，仅API v1可用。
+开通私有云的可以使用私有云接口，用法与上述不带**Private**的对应方法一致。
 
 * `getPrivatePicsByAlbum($aid, $page_no)` 通过相册获取图片，文档：[http://open.tietuku.com/doc#pcloud-piclist]()
 * `getPrivatePicInfo($pid_findurl, $findurl)` 获取图片信息，文档：[http://open.tietuku.com/doc#pcloud-getpicpdetail]()
@@ -231,7 +226,7 @@ tietuku-php-sdk
 
 ##### 只生成Token
 
-如果只想生成Token而不进行实际的请求，只需要在上述方法后面加上**Token**即可，仅API v1可用。
+如果只想生成Token而不进行实际的请求，只需要在上述方法后面加上**Token**即可。
 
 参数除了上传接口的Token方法可以省略`$file`或`$url`参数之外，其他Token方法的参数说明不变。
 
@@ -239,19 +234,6 @@ tietuku-php-sdk
 
     $ttk->uploadFileToken(12);    //获取上传文件的Token，可以省略$file
     $ttk->getAlbumsToken();    //获取相册列表的Token
-
-
-更新说明
---------
-
-### 0.2
-
-增加对API v2的支持。因API v2功能没有API v1丰富，故部分功能仅能在API v1下使用（包括上传接口、私有云接口和其他一些接口）。
-
-
-### 0.1
-
-初始版本
 
 捐助
 ----
