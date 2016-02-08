@@ -496,7 +496,7 @@ class TTKClient {
 
     //兼容糟糕的官方SDK
     public function getpicpdetail($pid) {
-        return $this=>getOnePicByIdPsc($pid);
+        return $this->getOnePicByIdPsc($pid);
     }
 
     public function getOnePicByFind_urlPsc($find_url,$createToken=false){
