@@ -9,7 +9,7 @@
  * @subpackage  Tietuku
  * @author      qakcn <qakcnyn@gmail.com>
  * @copyright   2015 qakcn
- * @version     0.1
+ * @version     0.2
  * @license     http://mozilla.org/MPL/2.0/
  * @link        https://github.com/qakcn/tietuku-php-sdk
  */
@@ -86,10 +86,10 @@ class Tietuku {
     }
 
     /**
-     * 对参数签名 
-     * 
+     * 对参数签名
+     *
      * 来自旧版贴图库PHP SDK
-     * 
+     *
      * @package TieTuKu
      * @author Tears <i@ltteam.cn>
     */
@@ -121,7 +121,7 @@ class Tietuku {
     /**
      * 处理所有动作
      * One method to do them all!
-     * 
+     *
      * @param string $action 动作名
      * @param array $params 参数
      * @param boolean $gettoken 是否只返回Token
@@ -172,7 +172,7 @@ class Tietuku {
 
     /**
      * 构造函数
-     * 
+     *
      * @param string $accesskey 贴图库的AccessKey
      * @param string $secretkey 贴图库的SecretKey
      * @return boolean 如果Key的格式不正确则返回false
@@ -188,7 +188,7 @@ class Tietuku {
 
     /**
      * getter，用于获取私有属性的值
-     * 
+     *
      * @param string $name 属性名
      * @return mixed 属性值
      */
@@ -201,7 +201,7 @@ class Tietuku {
 
     /**
      * setter，用于设置私有属性的值
-     * 
+     *
      * @param string $name 属性名
      * @param mixed $value 属性值
      */
@@ -214,7 +214,7 @@ class Tietuku {
 
     /**
      * 上传文件（对应API：http://open.tietuku.com/doc#upload）
-     * 
+     *
      * @param integer $aid 相册ID
      * @param File $file 要上传的文件，为空时返回Token
      * @param string $filename 要重设为的文件名
@@ -235,7 +235,7 @@ class Tietuku {
 
     /**
      * 以URL上传文件（对应API：http://open.tietuku.com/doc#upload）
-     * 
+     *
      * @param integer $aid 相册ID
      * @param string $url 要上传的文件的URL，为空时返回Token
      * @return string/TietukuResult/boolean $url为空则返回Token，成功则返回TietukuResult对象，失败则返回false
@@ -252,7 +252,7 @@ class Tietuku {
 
     /**
      * 私有云上传文件（对应API：http://open.tietuku.com/doc#uppsc）
-     * 
+     *
      * @param integer $aid 相册ID
      * @param File $file 要上传的文件对象，为空时返回Token
      * @param string $filename 要重设为的文件名
@@ -273,7 +273,7 @@ class Tietuku {
 
     /**
      * 私有云以URL上传文件（对应API：http://open.tietuku.com/doc#uppsc）
-     * 
+     *
      * @param integer $aid 相册ID
      * @param string $url 要上传的文件的URL，为空时返回Token
      * @return string/TietukuResult/boolean $url为空则返回Token，成功则返回TietukuResult对象，失败则返回false
@@ -290,7 +290,7 @@ class Tietuku {
 
     /**
      * 获取相册列表（对应API：http://open.tietuku.com/doc#album-get）
-     * 
+     *
      * @param integer $page_no 页码
      * @param integer $uid 用户ID
      * @param boolean $gettoken 是否只返回Token
@@ -308,7 +308,7 @@ class Tietuku {
 
     /**
      * 创建相册（对应API：http://open.tietuku.com/doc#album-create）
-     * 
+     *
      * @param string $albumname 相册名
      * @param boolean $gettoken 是否只返回Token
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
@@ -322,7 +322,7 @@ class Tietuku {
 
     /**
      * 编辑相册（对应API：http://open.tietuku.com/doc#album-editalbum）
-     * 
+     *
      * @param integer $aid 相册ID
      * @param string $albumname 要重设为的相册名
      * @param boolean $gettoken 是否只返回Token
@@ -338,7 +338,7 @@ class Tietuku {
 
     /**
      * 删除相册（对应API：http://open.tietuku.com/doc#album-delalbum）
-     * 
+     *
      * @param integer $aid 相册ID
      * @param boolean $gettoken 是否只返回Token
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
@@ -352,7 +352,7 @@ class Tietuku {
 
     /**
      * 随机获取30张推荐图片（对应API：http://open.tietuku.com/doc#list-getrandrec）
-     * 
+     *
      * @param integer $cid 分类ID，可用分类接口获取
      * @param boolean $gettoken 是否只返回Token
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
@@ -367,7 +367,7 @@ class Tietuku {
 
     /**
      * 获取全部图片（对应API：http://open.tietuku.com/doc#list-getnewpic）
-     * 
+     *
      * @param integer $page_no 页码
      * @param integer $cid 分类ID，可用分类接口获取
      * @param boolean $gettoken 是否只返回Token
@@ -385,7 +385,7 @@ class Tietuku {
 
     /**
      * 通过相册获取图片（对应API：http://open.tietuku.com/doc#list-album）
-     * 
+     *
      * @param integer $aid 相册ID
      * @param integer $page_no 页码
      * @param boolean $gettoken 是否只返回Token
@@ -401,7 +401,7 @@ class Tietuku {
 
     /**
      * 通过一组ID获取图片（对应API：http://open.tietuku.com/doc#list-getpicbyids）
-     * 
+     *
      * @param string $ids 由逗号分隔的图片ID
      * @param boolean $gettoken 是否只返回Token
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
@@ -415,7 +415,7 @@ class Tietuku {
 
     /**
      * 获取图片信息（对应API：http://open.tietuku.com/doc#pic-getonepic）
-     * 
+     *
      * @param integer/string $id_findurl 图片ID或findurl
      * @param boolean $findurl 为true时上一个参数是finurl，为false时是图片ID
      * @param boolean $gettoken 是否只返回Token
@@ -436,7 +436,7 @@ class Tietuku {
 
     /**
      * 删除图片（对应API：http://open.tietuku.com/doc#pic-delpic）
-     * 
+     *
      * @param integer $pid 图片ID
      * @param boolean $gettoken 是否只返回Token
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
@@ -450,7 +450,7 @@ class Tietuku {
 
     /**
      * 编辑图片（对应API：http://open.tietuku.com/doc#pic-updatepicname）
-     * 
+     *
      * @param integer $pid 图片ID
      * @param string $pname 要重设为的图片名称
      * @param boolean $gettoken 是否只返回Token
@@ -466,7 +466,7 @@ class Tietuku {
 
     /**
      * 获取喜欢的图片（对应API：http://open.tietuku.com/doc#collect-getlovepic）
-     * 
+     *
      * @param integer $page_no 页码
      * @param boolean $gettoken 是否只返回Token
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
@@ -480,7 +480,7 @@ class Tietuku {
 
     /**
      * 喜欢图片（对应API：http://open.tietuku.com/doc#collect-addcollect）
-     * 
+     *
      * @param integer $id 图片ID
      * @param boolean $gettoken 是否只返回Token
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
@@ -494,7 +494,7 @@ class Tietuku {
 
     /**
      * 取消喜欢图片（对应API：http://open.tietuku.com/doc#collect-delcollect）
-     * 
+     *
      * @param integer $id 图片ID
      * @param boolean $gettoken 是否只返回Token
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
@@ -508,7 +508,7 @@ class Tietuku {
 
     /**
      * 查询所有分类（对应API：http://open.tietuku.com/doc#catalog-getall）
-     * 
+     *
      * @param boolean $gettoken 是否只返回Token
      * @return string/TietukuResult/boolean 设置$gettoken=true则返回Token，成功则返回TietukuResult对象，失败则返回false
      */
@@ -519,7 +519,7 @@ class Tietuku {
 
     /**
      * 私有云通过相册获取图片（对应API：http://open.tietuku.com/doc#pcloud-piclist）
-     * 
+     *
      * @param integer $aid 相册ID
      * @param integer $page_no 页码
      * @param boolean $gettoken 是否只返回Token
@@ -535,7 +535,7 @@ class Tietuku {
 
     /**
      * 私有云获取图片信息（对应API：http://open.tietuku.com/doc#pcloud-getpicpdetail）
-     * 
+     *
      * @param integer $pid_findurl 图片ID或findurl
      * @param boolean $findurl 为true时上一个参数是finurl，为false时是图片ID
      * @param boolean $gettoken 是否只返回Token
@@ -556,7 +556,7 @@ class Tietuku {
 
     /**
      * 私有云编辑图片（对应API：http://open.tietuku.com/doc#pcloud-modifypicname）
-     * 
+     *
      * @param integer $pid 图片ID
      * @param string $pname 要重设为的图片名称
      * @param boolean $gettoken 是否只返回Token

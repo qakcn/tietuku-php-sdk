@@ -9,7 +9,7 @@
  * @subpackage  TietukuCompatible
  * @author      qakcn <qakcnyn@gmail.com>
  * @copyright   2015 qakcn
- * @version     0.1
+ * @version     0.2
  * @license     http://mozilla.org/MPL/2.0/
  * @link        https://github.com/qakcn/tietuku-php-sdk
  */
